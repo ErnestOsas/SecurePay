@@ -1,0 +1,13 @@
+# Node dependencies — installed locally, never committed
+node_modules/
+
+# Environment variables (API keys, secrets) — keep these private!
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

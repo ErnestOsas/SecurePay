@@ -134,16 +134,40 @@
       return;
     }
 
-    // Simulate processing (no real charge happens here)
+    // Show loading state while we talk to the backend
     payBtn.classList.add("loading");
     payBtn.disabled = true;
 
-    setTimeout(() => {
-      form.hidden = true;
-      payBtn.classList.remove("loading");
-      payBtn.disabled = false;
-      successState.hidden = false;
-    }, 1400);
+    // Send the payment to our Node/Express backend (/api/pay).
+    // NOTE: we deliberately do NOT send the full card number / CVV.
+    // In Phase 2, Stripe will handle card data so it never hits our server.
+    fetch("/api/pay", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cardName: cardName.value.trim(),
+        amount: 50.0,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          // Show the transaction id the server made up
+          const note = successState.querySelector(".muted");
+          if (note) note.textContent = `Confirmed · Ref ${data.transactionId}`;
+          form.hidden = true;
+          successState.hidden = false;
+        } else {
+          alert(data.message || "Payment failed. Please try again.");
+        }
+      })
+      .catch(() => {
+        alert("Could not reach the server. Is it running?");
+      })
+      .finally(() => {
+        payBtn.classList.remove("loading");
+        payBtn.disabled = false;
+      });
   });
 
   // Reset back to the form
