@@ -3,42 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SecurePay</title>
-  <link rel="Stylesheet" href="styles.css">
+  <title>SecurePay — Checkout</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class = "wrapper">
+  <main class="wrapper">
     <div class="checkout_wrapper">
-      <div class="product_info">
-        <img src="anike.jpg.jpg" alt="Shoe">
+
+      <!-- Product / order summary -->
+      <aside class="product_info">
+        <div class="brand">
+          <span class="lock" aria-hidden="true">&#128274;</span>
+          <span>Secure<strong>Pay</strong></span>
+        </div>
+
+        <div class="product_media">
+          <svg class="padlock" viewBox="0 0 24 24" role="img" aria-label="Secure payment padlock">
+            <path d="M12 1a5 5 0 0 0-5 5v3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3h-1V6a5 5 0 0 0-5-5zm0 2a3 3 0 0 1 3 3v3H9V6a3 3 0 0 1 3-3zm0 11a1.5 1.5 0 0 1 .75 2.8V19a.75.75 0 0 1-1.5 0v-2.2A1.5 1.5 0 0 1 12 14z"/>
+          </svg>
+        </div>
+
         <div class="content">
-          <h3><i>Secure Pay</i></h3><br/>Sneakers</h3>
-          <p>$50</p>
+          <h3>Secure Checkout</h3>
+          <p class="muted">256-bit SSL encrypted payment</p>
         </div>
-      </div>
-      <div class="checkout_form">
-        <p>Payment Section</p>
-        <div class="details">
+
+        <div class="order_summary">
+          <div class="row"><span>Amount</span><span>$50.00</span></div>
+          <div class="row"><span>Processing fee</span><span>$0.00</span></div>
+          <div class="row total"><span>Total</span><span>$50.00</span></div>
+        </div>
+
+        <p class="secure_note">
+          <span aria-hidden="true">&#128274;</span> Payments are encrypted &amp; secure
+        </p>
+      </aside>
+
+      <!-- Payment form -->
+      <section class="checkout_form">
+        <header class="form_head">
+          <h2>Payment details</h2>
+          <p class="muted">Complete your purchase below</p>
+        </header>
+
+        <form id="paymentForm" novalidate>
           <div class="section">
-            <input type="text" placeholder="Card Number">
+            <label for="cardNumber">Card number</label>
+            <div class="input_wrap">
+              <input type="text" id="cardNumber" inputmode="numeric"
+                     autocomplete="cc-number" placeholder="1234 5678 9012 3456"
+                     maxlength="23">
+              <span class="card_brand" id="cardBrand" aria-hidden="true"></span>
+            </div>
+            <small class="error" data-error-for="cardNumber"></small>
           </div>
+
           <div class="section">
-            <input type="text" placeholder="Cardholder Name">
+            <label for="cardName">Cardholder name</label>
+            <div class="input_wrap">
+              <input type="text" id="cardName" autocomplete="cc-name"
+                     placeholder="Jane Doe">
+            </div>
+            <small class="error" data-error-for="cardName"></small>
           </div>
-          <div class="section" last_section>
+
+          <div class="section last_section">
             <div class="item">
-              <input type="text" placeholder="Expiry Date">
+              <label for="expiry">Expiry date</label>
+              <div class="input_wrap">
+                <input type="text" id="expiry" inputmode="numeric"
+                       autocomplete="cc-exp" placeholder="MM/YY" maxlength="5">
+              </div>
+              <small class="error" data-error-for="expiry"></small>
             </div>
             <div class="item">
-              <input type="text" placeholder="CVV">
+              <label for="cvv">CVV</label>
+              <div class="input_wrap">
+                <input type="text" id="cvv" inputmode="numeric"
+                       autocomplete="cc-csc" placeholder="123" maxlength="4">
+              </div>
+              <small class="error" data-error-for="cvv"></small>
             </div>
           </div>
-          <div class="btn">
-            <a href="#">Pay</a>
-          </div>
+
+          <button type="submit" class="btn" id="payBtn">
+            <span class="btn_label">Pay $50.00</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <!-- Success state -->
+        <div class="success" id="successState" hidden>
+          <div class="check" aria-hidden="true">&#10003;</div>
+          <h2>Payment successful</h2>
+          <p class="muted">Your order is confirmed. A receipt has been sent to your email.</p>
+          <button type="button" class="btn ghost" id="againBtn">Make another payment</button>
         </div>
-      </div>
+      </section>
+
     </div>
-  </div>
+  </main>
+
+  <script src="checkout.js"></script>
 </body>
 </html>
